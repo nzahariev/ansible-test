@@ -1,0 +1,24 @@
+---
+- name: Install Prometheus Node Exporter if it does not exist
+  hosts: all
+  become: yes  
+  tasks:
+    - name: Check if Prometheus Node Exporter is installed
+      command: systemctl is-enabled prometheus-node-exporter
+      register: node_exporter_status
+      failed_when: false
+      changed_when: false
+      ignore_errors: true
+
+    - name: Install Prometheus Node Exporter
+      apt:
+        name: prometheus-node-exporter
+        state: latest
+      when: node_exporter_status.rc != 0
+
+    - name: Ensure Prometheus Node Exporter is enabled and running
+      systemd:
+        name: prometheus-node-exporter
+        enabled: yes
+        state: started
+      when: node_exporter_status.rc != 0
