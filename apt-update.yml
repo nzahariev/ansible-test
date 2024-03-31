@@ -1,11 +1,15 @@
 ---
-- name: Update and upgrade apt packages
-  hosts: all
-  user: ansible
-  become: true
-
+- hosts: all
+  become: yes
   tasks:
-    - name: Update packages with apt
-      when: ansible_pkg_mgr == 'apt'
-      ansible.builtin.apt:
-        update_cache: true
+    - name: Update apt packages
+      apt:
+        update_cache: yes
+    
+    - name: Upgrade all packages
+      apt:
+        upgrade: safe
+        
+    - name: Clean up unused packages
+      apt:
+        autoremove: yes    
