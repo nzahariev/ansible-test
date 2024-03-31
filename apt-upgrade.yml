@@ -1,9 +1,0 @@
----
-- name: Upgrade all APT packages
-  hosts: all
-  become: true  # Run tasks as root
-  become_method: sudo
-  tasks:
-    - name: Upgrade all packages
-      ansible.builtin.apt:
-        upgrade: yes
