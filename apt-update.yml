@@ -1,9 +1,9 @@
 ---
-- hosts: all
-
-  become: true
+- name: Update APT package index
+  hosts: all
+  become: yes  # Run tasks as root
   tasks:
-    - name: Update apt packages
-      apt:
-        update_cache: yes 
-        upgrade: yes
+    - name: Update APT package index
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600  # Update the cache if it's older than 1 hour
