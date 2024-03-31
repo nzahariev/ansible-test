@@ -1,6 +1,8 @@
 ---
 - name: Update and upgrade apt packages
   hosts: all
+  user: ansible
+  become: true
 
   tasks:
     - name: Update packages with apt
